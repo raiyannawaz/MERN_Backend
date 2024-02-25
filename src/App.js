@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import './App.css';
+import Home from './Pages/Home';
+import Alert from './Components/Alert';
+import { useState } from 'react';
+import Chat from './Pages/Chat';
 
 function App() {
+  const [alert, setAlert] = useState()
+
+  const showAlert = (msg, type) =>{
+    setAlert({msg, type})
+
+    setTimeout(()=>{
+      setAlert(null)
+    }, 2000)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Alert alert={alert}/>
+      <Routes>
+        <Route path='/' element={<Home showAlert={showAlert}/>}/>
+        <Route path='/chats' element={<Chat showAlert={showAlert}/>}/>
+      </Routes>
+    </Router>
   );
 }
 
